@@ -30,20 +30,20 @@ URLSession.shared.dataTask(with: url) { data, response, error in
  - cara startnya dengan panggil .resume() karena ga start otomatis
 
  OSI layer
- application: URLSession ambil URL dan siapin http request object (kalo https berarti butuh TLS encryption)
- presentation: pake TLS, di layer ini perform handshake, certificate validation, encryption key negotiation, intinya di layer ini datanya di-encrypt sebelum meninggalkan device
- session: pastiin socketnya alive, cookies dan session token, redirect or auth
- transport: pake TCP yang open connection to server IP dan port, split http request ke packet dan pastiin sampe dgn baik
- network: setiap paket dikasih alamat source sama destination
- data link and physical: packet diubah jadi frame lalu ke electric/radio signal trs dikirim dari network adapter ke cell tower
+ - application: URLSession ambil URL dan siapin http request object (kalo https berarti butuh TLS encryption)
+ - presentation: pake TLS, di layer ini perform handshake, certificate validation, encryption key negotiation, intinya di layer ini datanya di-encrypt sebelum meninggalkan device
+ - session: pastiin socketnya alive, cookies dan session token, redirect or auth
+ - transport: pake TCP yang open connection to server IP dan port, split http request ke packet dan pastiin sampe dgn baik
+ - network: setiap paket dikasih alamat source sama destination
+ - data link and physical: packet diubah jadi frame lalu ke electric/radio signal trs dikirim dari network adapter ke cell tower
 
- data Task take time to get the data, jadi completion handler itu baru akan execute setelah datanya ready
+ - data Task take time to get the data, jadi completion handler itu baru akan execute setelah datanya ready
  
  ```
 DispatchQueue.main.async {
  ```
-pokoknya kalo mau update UI harus di dalem dispatch queue main
-jadi klo kita panggil function ini 2 kali, itu bakal nungguin sampe 1 kelar baru jalanin yang satunya lagi
+- pokoknya kalo mau update UI harus di dalem dispatch queue main
+- jadi klo kita panggil function ini 2 kali, itu bakal nungguin sampe 1 kelar baru jalanin yang satunya lagi
 
 ```
 guard let jsonObject = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
