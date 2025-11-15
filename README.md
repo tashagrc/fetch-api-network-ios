@@ -94,4 +94,68 @@ Ketika dapat json data dari API, kita bisa:
 ## Flow 
 View (fetch coin) -> CoinsViewModel (call data service and update UI)-> CoinDataService (decode json to model) -> Coin (model)
 
+## Error Handling
+### cara 1
+```
+func fetchCoins(completion: @escaping([Coin]?, Error?)
+```
+kalau ada error
+```
+completion(nil, error)
+```
+kalau ga ada error
+```
+completion(coins, nil)
+```
+
+### cara 2 (pakai Result)
+```
+func fetchCoins(completion: @escaping(Result<[Coin], Error>)
+```
+kalau ada error
+```
+completion(.failure(error))
+```
+kalau ga ada error
+```
+completion(.success(coins))
+```
+
+### cara 3 (Result + custom error)
+bikin enum error
+```
+enum CoinAPIError: Error {
+    case invalidData
+    case jsonParsingFailure
+    case requestFailed(description: String)
+    case invalidStatusCode(statusCode: Int)
+    case unknownError(error: Error)
+    
+    var customDescription: String {
+        switch self {
+        case .invalidData:
+            return "Invalid data"
+        case .jsonParsingFailure:
+            return "Failed to parse json"
+        case .requestFailed(description: let description):
+            return "Request failed \(description)"
+        case .invalidStatusCode(statusCode: let statusCode):
+            return "Invalid status code: \(statusCode)"
+        case .unknownError(error: let error):
+            return "Something went wrong \(error.localizedDescription)"
+        }
+    }
+}
+```
+
+ganti error jadi custom error type
+```
+func fetchCoins(completion: @escaping(Result<[Coin], CoinAPIError>)
+```
+
+cara pakainya kayak gini
+```
+completion(.failure(.requestFailed(description: "HTTP response error")))
+```
+
 
