@@ -1,7 +1,7 @@
 # Learn Networking in iOS
 https://www.youtube.com/watch?v=II7WcnHVG4U&t=4583s 
 
-## View
+## Fetch Data - Basic
 
 ```
 class CoinsViewModel: ObservableObject {
@@ -59,7 +59,7 @@ klo pake completion handler harus pake resume. karena bikin data task bukan bera
   
         
 
-## Data Service
+## Completion Handler
 
 ```
 func fetchPrice(coin: String, completion: @escaping(Double) -> Void)
@@ -76,4 +76,22 @@ we cannot return value from completion handler because it is executed async, mak
 completion(price)
 ```
 passing price into parameter completion
+
+
+## Manual vs Codable
+
+Ketika dapat json data dari API, kita bisa:
+- parse manually
+    - Ubah string jadi URL
+    - Pakai URLSession utk bikin request
+    - Dapet json object [String: Any] dengan cara JSONSerialization.jsonObject(), bisa access key manually untuk dapetin valuenya kayak jsonObject[keyname]
+- bikin model yang conform ke Codable
+    - Ubah string jadi URL
+    - Pakai URLSession utk bikin request
+    - Mapping ke list of model dengan JSONDecoder
+
+
+## Flow 
+View (fetch coin) -> CoinsViewModel (call data service and update UI)-> CoinDataService (decode json to model) -> Coin (model)
+
 
