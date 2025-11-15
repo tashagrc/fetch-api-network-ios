@@ -55,7 +55,7 @@ transform to dictionary
 ```
 .resume()
 ```
-klo pake completion handler harus pake resume
+klo pake completion handler harus pake resume. karena bikin data task bukan berarti kita start itu, jadi harus panggil resume agar start network call-nya
   
         
 
@@ -65,4 +65,15 @@ klo pake completion handler harus pake resume
 func fetchPrice(coin: String, completion: @escaping(Double) -> Void)
 ```
 we cannot return value from completion handler because it is executed async, makanya kita bikin completion
+
+```
+@escaping(Double) -> Void
+```
+- escaping artinya kita mau closure ini tetap hidup walau functionnya udah di-return.
+- (Double) -> Void artinya terima double dan return void
+
+```
+completion(price)
+```
+passing price into parameter completion
 
